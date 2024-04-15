@@ -8,8 +8,8 @@ DashProvider -> DataProcessing: retrieveLatestReport()
 loop every day
     DataProcessing -> TransportationAdapter: retrieveAvailableTransportation
     DataProcessing <-- TransportationAdapter: list[transportationId]
-    DataProcessing -> SensorsDataHandler: getCachedData(timePeriod=15days)
-    SensorsDataHandler -> SensorsDataDB: query(timePeriod=15days) 
+    DataProcessing -> SensorsDataHandler: getCachedData(timePeriod=1day)
+    SensorsDataHandler -> SensorsDataDB: query(timePeriod=1day) 
     SensorsDataHandler <-- SensorsDataDB: sensorsData
     DataProcessing <-- SensorsDataHandler: sensorsData
     DataProcessing -> DataProcessing: generateReport(routesData, sensorsData)

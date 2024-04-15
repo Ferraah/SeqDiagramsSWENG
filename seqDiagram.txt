@@ -1,9 +1,9 @@
 @startuml
-UrbanAreaManager -> WebApp: startApplication()
-WebApp -> Authenticator: login(userID, password)
-Authenticator -> Authenticator: validateUser(userID, password)
-UrbanAreaManager -> DashProvider: getDashboard()
-DashProvider -> DataProcessing: retrieveLatestReport()
+UrbanAreaManager -> WebApp: 1: startApplication()
+WebApp -> Authenticator: 2: login(userID, password)
+Authenticator -> Authenticator: 3: validateUser(userID, password)
+UrbanAreaManager -> DashProvider: 4: getDashboard()
+DashProvider -> DataProcessing: 5: retrieveLatestReport()
 
 loop every day
     DataProcessing -> TransportationAdapter: retrieveAvailableTransportation
@@ -22,8 +22,8 @@ alt If critical situation detected
     UrbanAreaManager <-- CriticalMonitor: notifyCriticalSituation(info)
 end
 
-DashProvider <-- DataProcessing: report
-UrbanAreaManager <-- DashProvider: dashboard
+DashProvider <-- DataProcessing: 6: report
+UrbanAreaManager <-- DashProvider: 7: dashboard
 
 
 

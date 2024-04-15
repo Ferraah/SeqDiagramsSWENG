@@ -1,0 +1,32 @@
+@startuml
+UrbanAreaManager -> WebApp: startApplication()
+WebApp -> Authenticator: login(userID, password)
+Authenticator -> Authenticator: validateUser(userID, password)
+UrbanAreaManager -> DashProvider: getDashboard()
+DashProvider -> DataProcessing: retrieveLatestReport()
+
+loop every day
+    DataProcessing -> TransportationAdapter: retrieveAvailableTransportation
+    DataProcessing <-- TransportationAdapter: list[transportationId]
+    DataProcessing -> SensorsDataHandler: getCachedData(timePeriod=15days)
+    SensorsDataHandler -> SensorsDataDB: query(timePeriod=15days) 
+    SensorsDataHandler <-- SensorsDataDB: sensorsData
+    DataProcessing <-- SensorsDataHandler: sensorsData
+    DataProcessing -> DataProcessing: generateReport(routesData, sensorsData)
+
+    DataProcessing -> CriticalMonitor: checkAnomalies(report)
+
+end
+
+alt If critical situation detected 
+    UrbanAreaManager <-- CriticalMonitor: notifyCriticalSituation(info)
+end
+
+DashProvider <-- DataProcessing: report
+UrbanAreaManager <-- DashProvider: dashboard
+
+
+
+/'
+'/
+@enduml
